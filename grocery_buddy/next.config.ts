@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    turbo: {
+      root: './grocery_buddy'
+    }
+  }
 };
 
 export default nextConfig;
