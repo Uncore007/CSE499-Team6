@@ -20,9 +20,9 @@ function Navbar() {
 
       {/* Desktop Buttons */}
       <div className="hidden md:flex gap-4">
-        <Link href = "/signin">
+        <Link href = "/login">
             <button className="px-4 py-2 border border-orange-500 hover:border-orange-700 transition rounded-full">
-             Sign in
+             Log In
             </button>
         </Link>
         <Link href = "/signup">
@@ -50,9 +50,9 @@ function Navbar() {
             <li className="hover:text-orange-400 transition">Pricing</li>
           </ul>
           <div className="flex flex-col items-center gap-4 pb-6">
-            <Link href = "/signin">
+            <Link href = "/login">
                 <button className="w-40 px-4 py-2 border border-orange-500 hover:border-orange-700 transition rounded-full">
-                 Sign in
+                 Log In
                 </button>
             </Link>
             <Link href = "/signup">
