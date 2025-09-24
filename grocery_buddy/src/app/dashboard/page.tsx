@@ -26,26 +26,17 @@ export default function Home() {
                 </a>
               </li>
               <li className="mb-2">
-                <a
-                  href="#"
-                  className="block p-3 rounded hover:bg-gray-600"
-                >
+                <a href="#" className="block p-3 rounded hover:bg-gray-600">
                   Recipes
                 </a>
               </li>
               <li className="mb-2">
-                <a
-                  href="#"
-                  className="block p-3 rounded hover:bg-gray-600"
-                >
+                <a href="#" className="block p-3 rounded hover:bg-gray-600">
                   List
                 </a>
               </li>
               <li className="mb-2">
-                <a
-                  href="#"
-                  className="block p-3 rounded hover:bg-gray-600"
-                >
+                <a href="#" className="block p-3 rounded hover:bg-gray-600">
                   Pantry
                 </a>
               </li>
