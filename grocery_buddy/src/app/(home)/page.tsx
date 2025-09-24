@@ -155,39 +155,43 @@ function Features(){
     )
 }
 
-function Testimonials(){
+function Testimonials() {
+  const testimonials = [
+    {
+      quote:
+        "This app has revolutionized my grocery shopping. I save time and money every week!",
+      author: "Alex Johnson",
+      role: "Busy Parent",
+    },
+    {
+      quote:
+        "The best meal planning and list-making tool I've ever used. Highly recommended.",
+      author: "Samantha Lee",
+      role: "Food Blogger",
+    },
+    {
+      quote:
+        "Grocery Buddy helps me stick to my budget and reduce food waste. It's a must-have.",
+      author: "Michael Brown",
+      role: "Student",
+    },
+  ];
 
     return (
         <section className="py-16">
             <h2 className="font-bold text-center mb-12 text-cyan-500 text-xl">What Our Users Say</h2>
 
             <div className="grid gap-8 mx-7 md:grid-cols-3">
-                <article className="bg-cyan-700 p-6 rounded-lg shadow">
-                <blockquote className="text-white-700 italic">
-                    "Grocery Buddy changed how I shop—no more forgotten items!"
-                </blockquote>
-                <cite className="block mt-4 text-sm font-semibold text-white-900">
-                    – Jane D., Busy Mom
-                </cite>
-                </article>
-
-                <article className="bg-cyan-700 p-6 rounded-lg shadow">
-                <blockquote className="text-white-700 italic">
-                    "Meal planning is so much easier now. I save hours every week."
-                </blockquote>
-                <cite className="block mt-4 text-sm font-semibold text-white-900">
-                    – Alex R., College Student
-                </cite>
-                </article>
-
-                <article className="bg-cyan-700 p-6 rounded-lg shadow">
-                <blockquote className="text-white-700 italic">
-                    "I love sharing my grocery list with my partner—it keeps us on track."
-                </blockquote>
-                <cite className="block mt-4 text-sm font-semibold text-white-900">
-                    – Sam & Taylor, Couple
-                </cite>
-                </article>
+                {testimonials.map((testimonial, index) => (
+                  <article key={index} className="bg-cyan-700 p-6 rounded-lg shadow">
+                    <blockquote className="text-white-700 italic">
+                      &quot;{testimonial.quote}&quot;
+                    </blockquote>
+                    <cite className="block mt-4 text-sm font-semibold text-white-900">
+                      – {testimonial.author}, {testimonial.role}
+                    </cite>
+                  </article>
+                ))}
             </div>
     </section>
     )
