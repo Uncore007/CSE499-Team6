@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
     let { data: groceryItems, error } = await supabase
         .from('grocery_items')
         .select('*')
-        .eq('user_id', user.id)
         .order('name', { ascending: true });
 
     if (error) {
@@ -40,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabase
         .from('stores')
-        .insert({"name": "Test", "user_id": user?.id})
+        .insert({"name": "Test"})
         .select()
 
     if (error) {
