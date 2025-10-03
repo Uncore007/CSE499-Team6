@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
             source_url,
             image_url,
             instructions,
-            prep_time,
-            cook_time,
+            prep_minutes,
+            cook_minutes,
             servings
         } = body;
         
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
             source_url,
             image_url,
             instructions,
-            prep_time: prep_time ? Number(prep_time) : null,
-            cook_time: cook_time ? Number(cook_time) : null,
+            prep_minutes: prep_minutes ? Number(prep_minutes) : null,
+            cook_minutes: cook_minutes ? Number(cook_minutes) : null,
             servings: servings ? Number(servings) : null,
             user_id: user.id
         });

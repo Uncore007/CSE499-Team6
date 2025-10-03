@@ -42,8 +42,8 @@ export async function PUT(
             source_url,
             image_url,
             instructions,
-            prep_time,
-            cook_time,
+            prep_minutes,
+            cook_minutes,
             servings
         } = body;
 
@@ -53,8 +53,8 @@ export async function PUT(
         if (source_url !== undefined) updates.source_url = source_url;
         if (image_url !== undefined) updates.image_url = image_url;
         if (instructions !== undefined) updates.instructions = instructions;
-        if (prep_time !== undefined) updates.prep_time = Number(prep_time);
-        if (cook_time !== undefined) updates.cook_time = Number(cook_time);
+        if (prep_minutes !== undefined) updates.prep_minutes = Number(prep_minutes);
+        if (cook_minutes !== undefined) updates.cook_minutes = Number(cook_minutes);
         if (servings !== undefined) updates.servings = Number(servings);
 
         const data = await updateRecipe(id, user.id, updates);
