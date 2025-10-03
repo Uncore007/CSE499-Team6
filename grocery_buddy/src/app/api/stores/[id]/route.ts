@@ -1,74 +1,68 @@
-import { createClient } from '@/utils/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/utils/supabase/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { fetchStoreById, updateStore, deleteStore } from '@/utils/lib-server';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  if (!user) {
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const store = await fetchStoreById(id, user.id);
+    return NextResponse.json(store, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const { data: store, error } = await supabase
-    .from('stores')
-    .select('*')
-    .eq('id', params.id)
-    .eq('user_id', user.id)
-    .single()
-
-  if (error) {
-    return new NextResponse(JSON.stringify({ error: 'Store not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  return NextResponse.json(store)
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  if (!user) {
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const { name } = await request.json();
+
+    const updates: any = {};
+    if (name !== undefined) updates.name = name;
+
+    const data = await updateStore(id, user.id, updates);
+    return NextResponse.json(data, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const { name } = await request.json()
-
-  if (!name) {
-    return new NextResponse(JSON.stringify({ error: 'Name is required' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  const { data, error } = await supabase
-    .from('stores')
-    .update({ name })
-    .eq('id', params.id)
-    .eq('user_id', user.id)
-    .select()
-    .single()
-
-  if (error) {
-    return new NextResponse(JSON.stringify({ error: 'Store not found or update failed' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  return NextResponse.json(data)
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  if (!user) {
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    await deleteStore(id, user.id);
+    return NextResponse.json({ message: 'Store deleted successfully' }, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const { error } = await supabase
-    .from('stores')
-    .delete()
-    .eq('id', params.id)
-    .eq('user_id', user.id)
-
-  if (error) {
-    return new NextResponse(JSON.stringify({ error: 'Store not found or delete failed' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  return new NextResponse(null, { status: 204 })
 }
