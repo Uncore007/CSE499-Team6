@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   Home, 
   BookOpen, 
@@ -9,7 +10,8 @@ import {
   Package, 
   ShoppingCart,
   Menu,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -23,7 +25,12 @@ const navigation = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { user, logout, isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!isAuthenticated) {
+    return null; // Don't show sidebar if user is not authenticated
+  }
 
   return (
     <>
@@ -81,15 +88,26 @@ export default function Sidebar() {
         {/* User section */}
         <div className="absolute bottom-4 left-4 right-4">
           <div className="bg-gray-700 rounded-lg p-3">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 mb-3">
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold text-sm">U</span>
+                <span className="text-white font-semibold text-sm">
+                  {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+                </span>
               </div>
-              <div>
-                <p className="text-sm font-medium">Usuario</p>
-                <p className="text-xs text-gray-400">usuario@email.com</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-xs text-gray-400 truncate">{user?.email}</p>
               </div>
             </div>
+            <button
+              onClick={logout}
+              className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors text-sm font-medium"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </aside>
