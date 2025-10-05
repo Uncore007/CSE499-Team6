@@ -62,7 +62,7 @@ export default function Recipes() {
       <header className="bg-gray-800 text-white shadow-md px-6 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Recipes</h1>
         <Link
-          href="/recipes/create"
+          href="/recipes/createRecipes"
           className="px-4 py-2 bg-orange-500 hover:bg-orange-600 rounded-lg text-white text-sm transition"
         >
           + Create Recipe
