@@ -51,12 +51,18 @@ export default function Dashboard() {
                 </Link>
               </li>
               <li className="mb-2">
-                <a href="#" className="block p-3 rounded hover:bg-gray-600">
+                <Link
+                  href="/dashboard/list"
+                  className="block p-3 rounded hover:bg-gray-600"
+                >
                   List
-                </a>
+                </Link>
               </li>
               <li className="mb-2">
-                <Link href="/dashbaord/pantry" className="block p-3 rounded hover:bg-gray-600">
+                <Link
+                  href="/dashbaord/pantry"
+                  className="block p-3 rounded hover:bg-gray-600"
+                >
                   Pantry
                 </Link>
               </li>
