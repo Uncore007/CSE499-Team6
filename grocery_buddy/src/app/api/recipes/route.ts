@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { fetchRecipes, createRecipe } from "@/utils/lib-server";
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     try {
         const supabase = await createClient();
         const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -13,9 +13,10 @@ export async function GET(request: NextRequest) {
 
         const recipes = await fetchRecipes(user.id);
         return NextResponse.json(recipes, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
-    }   
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }  
 }
 
 export async function POST(request: NextRequest) {
@@ -56,7 +57,8 @@ export async function POST(request: NextRequest) {
         });
 
         return NextResponse.json(data, { status: 201 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

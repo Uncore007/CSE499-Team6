@@ -32,8 +32,9 @@ export default function NewGroceryItemPage() {
       if (!response.ok) throw new Error('Failed to fetch stores')
       const data = await response.json()
       setStores(data)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setStoresLoading(false)
     }
@@ -73,8 +74,9 @@ export default function NewGroceryItemPage() {
       }
 
       router.push('/grocery-items')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }

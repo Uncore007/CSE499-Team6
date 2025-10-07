@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
+import Navbar from '../../components/Navbar'
+
 interface GroceryItem {
   id: string
   name: string
@@ -45,8 +47,9 @@ export default function GroceryItemsPage() {
       
       setItems(itemsData)
       setStores(storesData)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }
@@ -61,8 +64,9 @@ export default function GroceryItemsPage() {
       })
       if (!response.ok) throw new Error('Failed to delete item')
       setItems(items.filter(item => item.id !== id))
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 
@@ -78,8 +82,9 @@ export default function GroceryItemsPage() {
       setItems(items.map(i => 
         i.id === item.id ? { ...i, is_purchased: !i.is_purchased } : i
       ))
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 
@@ -96,7 +101,9 @@ export default function GroceryItemsPage() {
   const purchasedItems = items.filter(item => item.is_purchased)
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gray-900 text-white p-6 md:ml-56">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold">Grocery List</h1>
@@ -205,5 +212,6 @@ export default function GroceryItemsPage() {
         )}
       </div>
     </div>
+    </>
   )
 }

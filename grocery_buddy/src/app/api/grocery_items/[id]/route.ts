@@ -5,7 +5,7 @@ import { fetchGroceryItemById, updateGroceryItem, deleteGroceryItem } from '@/ut
 export const dynamic = 'force-dynamic'
 
 // GET a single grocery item
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -17,9 +17,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { id } = await params
     const item = await fetchGroceryItemById(id, user.id)
     return NextResponse.json(item, { status: 200 })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
-  }
+  } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
 }
 
 // UPDATE a grocery item
@@ -42,9 +43,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     const data = await updateGroceryItem(id, user.id, updates)
     return NextResponse.json(data, { status: 200 })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
-  }
+  } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
 }
 
 // DELETE a grocery item
@@ -60,7 +62,8 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const { id } = await params
     await deleteGroceryItem(id, user.id)
     return NextResponse.json({ message: 'Grocery item deleted successfully' }, { status: 200 })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
-  }
+  } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
 }

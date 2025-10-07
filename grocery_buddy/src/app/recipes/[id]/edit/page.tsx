@@ -39,8 +39,9 @@ export default function EditRecipePage() {
         cook_minutes: data.cook_minutes?.toString() || '',
         servings: data.servings?.toString() || '',
       })
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setFetchLoading(false)
     }
@@ -73,8 +74,9 @@ export default function EditRecipePage() {
       }
 
       router.push(`/recipes/${params.id}`)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }

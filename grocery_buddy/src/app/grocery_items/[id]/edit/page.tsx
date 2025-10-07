@@ -48,8 +48,9 @@ export default function EditGroceryItemPage() {
         is_purchased: itemData.is_purchased ?? false,
       })
       setStores(storesData)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setFetchLoading(false)
     }
@@ -89,8 +90,9 @@ export default function EditGroceryItemPage() {
       }
 
       router.push(`/grocery-items/${params.id}`)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }

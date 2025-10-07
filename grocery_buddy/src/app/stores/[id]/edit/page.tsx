@@ -25,8 +25,9 @@ export default function EditStorePage() {
       setFormData({
         name: data.name || '',
       })
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setFetchLoading(false)
     }
@@ -54,8 +55,9 @@ export default function EditStorePage() {
       }
 
       router.push(`/stores/${params.id}`)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }
