@@ -30,7 +30,7 @@ export default function GroceryListPage() {
       <main className="flex-1 p-6 overflow-y-auto">
         <div className="max-w-3xl mx-auto mb-6 flex justify-end">
           <Link
-            href="/dashboard/list"
+            href="/dashboard/list/addItem"
             className="px-4 py-2 bg-orange-500 hover:bg-orange-600 rounded-lg text-white text-sm transition"
           >
             + Add Item
