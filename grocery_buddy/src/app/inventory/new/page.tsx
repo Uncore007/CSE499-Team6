@@ -38,8 +38,9 @@ export default function NewInventoryPage() {
       }
 
       router.push('/inventory')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }

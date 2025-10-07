@@ -27,8 +27,9 @@ export default function StoreDetailPage() {
       if (!response.ok) throw new Error('Failed to fetch store')
       const data = await response.json()
       setStore(data)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }
@@ -43,8 +44,9 @@ export default function StoreDetailPage() {
       })
       if (!response.ok) throw new Error('Failed to delete store')
       router.push('/stores')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 

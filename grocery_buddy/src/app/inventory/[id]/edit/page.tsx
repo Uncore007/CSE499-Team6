@@ -27,8 +27,9 @@ export default function EditInventoryPage() {
         name: data.name || '',
         in_stock: data.in_stock ?? true,
       })
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setFetchLoading(false)
     }
@@ -60,8 +61,9 @@ export default function EditInventoryPage() {
       }
 
       router.push(`/inventory/${params.id}`)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }

@@ -28,8 +28,9 @@ export default function InventoryDetailPage() {
       if (!response.ok) throw new Error('Failed to fetch item')
       const data = await response.json()
       setItem(data)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }
@@ -44,8 +45,9 @@ export default function InventoryDetailPage() {
       })
       if (!response.ok) throw new Error('Failed to delete item')
       router.push('/inventory')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 
@@ -60,8 +62,9 @@ export default function InventoryDetailPage() {
       })
       if (!response.ok) throw new Error('Failed to update item')
       setItem({ ...item, in_stock: !item.in_stock })
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 

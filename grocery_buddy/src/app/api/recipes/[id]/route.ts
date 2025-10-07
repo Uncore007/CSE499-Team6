@@ -17,8 +17,9 @@ export async function GET(
         const { id } = await params;
         const recipe = await fetchRecipeById(id, user.id);
         return NextResponse.json(recipe, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
@@ -59,8 +60,9 @@ export async function PUT(
 
         const data = await updateRecipe(id, user.id, updates);
         return NextResponse.json(data, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
@@ -79,7 +81,8 @@ export async function DELETE(
         const { id } = await params;
         await deleteRecipe(id, user.id);
         return NextResponse.json({ message: 'Recipe deleted successfully' }, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

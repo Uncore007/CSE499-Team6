@@ -45,8 +45,9 @@ export default function GroceryItemDetailPage() {
           setStore(storeData)
         }
       }
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     } finally {
       setLoading(false)
     }
@@ -61,8 +62,9 @@ export default function GroceryItemDetailPage() {
       })
       if (!response.ok) throw new Error('Failed to delete item')
       router.push('/grocery-items')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 
@@ -77,8 +79,9 @@ export default function GroceryItemDetailPage() {
       })
       if (!response.ok) throw new Error('Failed to update item')
       setItem({ ...item, is_purchased: !item.is_purchased })
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error"
+      setError(message)
     }
   }
 

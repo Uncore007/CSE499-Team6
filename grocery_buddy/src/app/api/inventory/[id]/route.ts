@@ -17,8 +17,9 @@ export async function GET(
         const { id } = await params;
         const item = await fetchInventoryById(id, user.id);
         return NextResponse.json(item, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
@@ -43,8 +44,9 @@ export async function PUT(
 
         const data = await updateInventoryItem(id, user.id, updates);
         return NextResponse.json(data, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
@@ -63,7 +65,8 @@ export async function DELETE(
         const { id } = await params;
         await deleteInventoryItem(id, user.id);
         return NextResponse.json({ message: 'Inventory item deleted successfully' }, { status: 200 });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
