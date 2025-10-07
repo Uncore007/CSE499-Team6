@@ -1,98 +1,69 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { fetchGroceryItemById, updateGroceryItem, deleteGroceryItem } from '@/utils/lib-server'
 
 export const dynamic = 'force-dynamic'
 
 // GET a single grocery item
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const supabase = await createClient()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-  if (!user) {
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
-  }
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-  const { data: item, error } = await supabase
-    .from('grocery_items')
-    .select('*, stores!inner(user_id)')
-    .eq('id', params.id)
-    .eq('stores.user_id', user.id)
-    .single()
-
-  if (error || !item) {
-    return new NextResponse(JSON.stringify({ error: 'Item not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  return NextResponse.json(item)
+    const { id } = await params
+    const item = await fetchGroceryItemById(id, user.id)
+    return NextResponse.json(item, { status: 200 })
+  } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
 }
 
 // UPDATE a grocery item
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const supabase = await createClient()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-  if (!user) {
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
-  }
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-  // First, verify the user owns the item they are trying to update.
-  const { data: existingItem, error: fetchError } = await supabase
-    .from('grocery_items')
-    .select('id, stores!inner(user_id)')
-    .eq('id', params.id)
-    .eq('stores.user_id', user.id)
-    .single()
+    const { id } = await params
+    const { name, quantity, store_id } = await request.json()
 
-  if (fetchError || !existingItem) {
-    return new NextResponse(JSON.stringify({ error: 'Item not found or permission denied' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
-  }
+    const updates: any = {}
+    if (name !== undefined) updates.name = name
+    if (quantity !== undefined) updates.quantity = quantity
+    if (store_id !== undefined) updates.store_id = store_id
 
-  const itemData = await request.json()
-
-  // Now, perform the update.
-  const { data, error } = await supabase
-    .from('grocery_items')
-    .update(itemData)
-    .eq('id', params.id)
-    .select()
-    .single()
-
-  if (error) {
-    return new NextResponse(JSON.stringify({ error: 'Update failed' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  return NextResponse.json(data)
+    const data = await updateGroceryItem(id, user.id, updates)
+    return NextResponse.json(data, { status: 200 })
+  } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
 }
 
 // DELETE a grocery item
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const supabase = await createClient()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-  if (!user) {
-    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
-  }
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-  // Verify ownership before deleting
-  const { data: item, error: fetchError } = await supabase
-    .from('grocery_items')
-    .select('id, stores!inner(user_id)')
-    .eq('id', params.id)
-    .eq('stores.user_id', user.id)
-    .single()
-
-  if (fetchError || !item) {
-    return new NextResponse(JSON.stringify({ error: 'Item not found or permission denied' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  const { error } = await supabase
-    .from('grocery_items')
-    .delete()
-    .eq('id', params.id)
-
-  if (error) {
-    return new NextResponse(JSON.stringify({ error: 'Delete failed' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
-  }
-
-  return new NextResponse(null, { status: 204 })
+    const { id } = await params
+    await deleteGroceryItem(id, user.id)
+    return NextResponse.json({ message: 'Grocery item deleted successfully' }, { status: 200 })
+  } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
 }

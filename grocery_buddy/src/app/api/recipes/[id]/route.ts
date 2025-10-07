@@ -1,35 +1,32 @@
-import { createClient } from '@/utils/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from "@/utils/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { fetchRecipeById, updateRecipe, deleteRecipe } from "@/utils/lib-server";
 
-
-// this takes the id selected by the user and uses the id to make changes
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
     try {
         const supabase = await createClient();
         const { data: { user }, error: authError } = await supabase.auth.getUser();
-        
+
         if (authError || !user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const { data: recipe, error } = await supabase
-            .from('recipes')
-            .select('*')
-            .eq('id', params.id)
-            .eq('user_id', user.id)
-            .single();
-
-        if (error) {
-            return NextResponse.json({ error: error.message }, { status: 500 });
-        }
-
-        return NextResponse.json(recipe, { status: 200 })
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        const { id } = await params;
+        const recipe = await fetchRecipeById(id, user.id);
+        return NextResponse.json(recipe, { status: 200 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
     try {
         const supabase = await createClient();
         const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -38,46 +35,41 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const body = await request.json()
+        const { id } = await params;
+        const body = await request.json();
         const {
             title,
             description,
             source_url,
             image_url,
             instructions,
-            servings,
-            prep_time,
-            cook_time
-        } = body
+            prep_minutes,
+            cook_minutes,
+            servings
+        } = body;
 
-        const { data, error } = await supabase
-            .from('recipes')
-            .update({
-                title,
-                description,
-                source_url,
-                image_url,
-                instructions,
-                servings,
-                prep_time,
-                cook_time
-            })
-            .eq('id', params.id)
-            .eq('user_id', user.id)
-            .select()
-            .single();
+        const updates: any = {};
+        if (title !== undefined) updates.title = title;
+        if (description !== undefined) updates.description = description;
+        if (source_url !== undefined) updates.source_url = source_url;
+        if (image_url !== undefined) updates.image_url = image_url;
+        if (instructions !== undefined) updates.instructions = instructions;
+        if (prep_minutes !== undefined) updates.prep_minutes = Number(prep_minutes);
+        if (cook_minutes !== undefined) updates.cook_minutes = Number(cook_minutes);
+        if (servings !== undefined) updates.servings = Number(servings);
 
-        if (error) {
-            return NextResponse.json({ error: error.message }, { status: 500 });
-        }
-
-        return NextResponse.json(data, { status: 200 })
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        const data = await updateRecipe(id, user.id, updates);
+        return NextResponse.json(data, { status: 200 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
     try {
         const supabase = await createClient();
         const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -86,20 +78,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const { data, error } = await supabase
-            .from('recipes')
-            .delete()
-            .eq('id', params.id)
-            .eq('user_id', user.id)
-            .select()
-            .single();
-
-        if (error) {
-            return NextResponse.json({ error: error.message }, { status: 500 });
-        }
-
-        return NextResponse.json(data, { status: 200 })
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        const { id } = await params;
+        await deleteRecipe(id, user.id);
+        return NextResponse.json({ message: 'Recipe deleted successfully' }, { status: 200 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }

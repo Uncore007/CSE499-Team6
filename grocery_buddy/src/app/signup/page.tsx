@@ -1,23 +1,52 @@
-
 'use client'
 import { useState } from "react";
 import { Mail, Lock, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Sign up data:", formData);
-    // TODO: connect to backend or Firebase auth
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          name: formData.name,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to sign up");
+      }
+
+      // Redirect to home or login page after successful signup
+      router.push("/login");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -30,6 +59,13 @@ export default function SignUp() {
         <p className="text-gray-400 text-center mb-6">
           Start organizing your meals and groceries today.
         </p>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-600/20 border border-red-600 rounded">
+            {error}
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -71,6 +107,7 @@ export default function SignUp() {
               value={formData.password}
               onChange={handleChange}
               required
+              minLength={6}
               className="w-full bg-transparent outline-none text-white"
             />
           </div>
@@ -78,16 +115,17 @@ export default function SignUp() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold transition"
+            disabled={loading}
+            className="w-full py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold transition disabled:opacity-50"
           >
-            Sign Up
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
 
         {/* Footer */}
         <p className="text-sm text-center text-gray-400 mt-6">
           Already have an account?{" "}
-          <a href="/signin" className="text-orange-400 hover:underline">
+          <a href="/login" className="text-orange-400 hover:underline">
             Sign In
           </a>
         </p>
