@@ -63,12 +63,20 @@ export default function RecipeDetailPage() {
 
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-4xl font-bold">{recipe.title}</h1>
-          <button
-            onClick={() => router.push(`/recipes/${recipe.id}/edit`)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-          >
-            Edit
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => router.push(`/recipes/${recipe.id}/inventory`)}
+              className="px-6 py-3 bg-violet-600 hover:bg-violet-700 rounded font-semibold"
+            >
+              Manage Inventory
+            </button>
+            <button
+              onClick={() => router.push(`/recipes/${recipe.id}/edit`)}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-semibold"
+            >
+              Edit Recipe
+            </button>
+          </div>
         </div>
 
         {recipe.description && (

@@ -244,3 +244,125 @@ export async function deleteGroceryItem(id: string, userId: string) {
   if (error) throw error;
 }
 
+// Recipe-Inventory Association Functions
+export async function fetchRecipeInventory(recipeId: string, userId: string) {
+  const supabase = await createClient();
+  
+  // First verify the recipe belongs to the user
+  const { data: recipe, error: recipeError } = await supabase
+    .from('recipes')
+    .select('id')
+    .eq('id', recipeId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (recipeError) throw recipeError;
+  
+  // Fetch inventory items associated with this recipe
+  const { data, error } = await supabase
+    .from('recipes_inventory')
+    .select(`
+      id,
+      qty,
+      unit,
+      inventory:inventory_id (
+        id,
+        name,
+        in_stock
+      )
+    `)
+    .eq('recipe_id', recipeId);
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function addInventoryToRecipe(recipeId: string, userId: string, inventoryId: string, qty?: number, unit?: string) {
+  const supabase = await createClient();
+  
+  // Verify recipe belongs to user
+  const { data: recipe, error: recipeError } = await supabase
+    .from('recipes')
+    .select('id')
+    .eq('id', recipeId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (recipeError) throw recipeError;
+  
+  // Verify inventory item belongs to user
+  const { data: inventory, error: inventoryError } = await supabase
+    .from('inventory')
+    .select('id')
+    .eq('id', inventoryId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (inventoryError) throw inventoryError;
+  
+  // Create association
+  const { data, error } = await supabase
+    .from('recipes_inventory')
+    .insert([{
+      recipe_id: recipeId,
+      inventory_id: inventoryId,
+      qty: qty || null,
+      unit: unit || null
+    }])
+    .select();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function updateRecipeInventory(id: string, recipeId: string, userId: string, updates: { qty?: number; unit?: string }) {
+  const supabase = await createClient();
+  
+  // Verify recipe belongs to user
+  const { data: recipe, error: recipeError } = await supabase
+    .from('recipes')
+    .select('id')
+    .eq('id', recipeId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (recipeError) throw recipeError;
+  
+  // Update association
+  const { data, error } = await supabase
+    .from('recipes_inventory')
+    .update({
+      qty: updates.qty ?? null,
+      unit: updates.unit ?? null
+    })
+    .eq('id', id)
+    .eq('recipe_id', recipeId)
+    .select();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function removeInventoryFromRecipe(id: string, recipeId: string, userId: string) {
+  const supabase = await createClient();
+  
+  // Verify recipe belongs to user
+  const { data: recipe, error: recipeError } = await supabase
+    .from('recipes')
+    .select('id')
+    .eq('id', recipeId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (recipeError) throw recipeError;
+  
+  // Delete association
+  const { error } = await supabase
+    .from('recipes_inventory')
+    .delete()
+    .eq('id', id)
+    .eq('recipe_id', recipeId);
+  
+  if (error) throw error;
+}
+
