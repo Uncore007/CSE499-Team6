@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
+import Calendar from "@/components/Calendar";
 import { CheckCircle, Menu, X } from "lucide-react";
 import Link from "next/link";
 
@@ -378,6 +379,7 @@ export default function LandingPage(){
         <Navbar />
         <div className="pt-6">
           <Hero/>
+          <Calendar />
           <Features/>
           {/* <Testimonials/>
           <Benefits/>

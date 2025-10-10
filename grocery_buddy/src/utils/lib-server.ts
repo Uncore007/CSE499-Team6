@@ -366,3 +366,57 @@ export async function removeInventoryFromRecipe(id: string, recipeId: string, us
   if (error) throw error;
 }
 
+// Calendar Functions
+export async function fetchCalendar(userId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('calendar')
+    .select(`
+      day,
+      recipes (
+        id,
+        title,
+        image_url,
+        prep_minutes,
+        cook_minutes,
+        servings
+      )
+    `)
+    .eq('user_id', userId)
+    
+    if (error) throw error;
+    return data;
+}
+
+export async function assignRecipeToDay(userId: string, recipeId: string, day: string) {
+  const supabase = await createClient();
+  
+  await supabase
+    .from('calendar')
+    .delete()
+    .eq('user_id', userId)
+    .eq('day', day);
+  
+  const { data, error } = await supabase
+    .from('calendar')
+    .insert([{
+      user_id: userId,
+      recipe_id: recipeId,
+      day: day
+    }])
+    .select();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function removeRecipeFromDay(userId: string, day: string) {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('calendar')
+    .delete()
+    .eq('user_id', userId)
+    .eq('day', day);
+  
+  if (error) throw error;
+}
