@@ -23,6 +23,7 @@ export default function Calendar() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [removingAll, setRemovingAll] = useState(false);
 
   useEffect(() => {
     Promise.all([fetchCalendar(), fetchRecipes()]).finally(() => setLoading(false));
@@ -79,16 +80,53 @@ export default function Calendar() {
     }
   }
 
+  async function removeAllRecipes() {
+    if (!confirm("Are you sure you want to clear the entire calendar?")) return;
+    setRemovingAll(true);
+    try {
+      const assignedDays = calendar.filter((c) => c.recipes);
+      await Promise.all(assignedDays.map((day) => removeRecipe(day.day)));
+      await fetchCalendar();
+    } catch (err) {
+        alert("Error removing all recipes");
+      } finally {
+        setRemovingAll(false);
+      }
+    }
+
   if (loading)
     return <p className="text-center text-gray-300">Loading calendar...</p>;
   if (error)
     return <p className="text-center text-red-500">{error}</p>;
 
-  return (
+return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
-      <h3 className="text-2xl font-bold mb-6 text-white text-center">
-        Weekly Meal Planner
-      </h3>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+        <h3 className="text-2xl font-bold text-white mb-4 md:mb-0 text-center">
+          Weekly Meal Planner
+        </h3>
+
+        <div className="flex gap-3">
+          <button
+            onClick={removeAllRecipes}
+            disabled={removingAll}
+            className={`px-4 py-2 rounded-lg font-semibold text-sm ${
+              removingAll
+                ? "bg-red-400 cursor-not-allowed"
+                : "bg-red-600 hover:bg-red-700"
+            } text-white transition`}
+          >
+            {removingAll ? "Removing..." : "Remove All"}
+          </button>
+
+          <button
+            onClick={() => alert("Grocery items feature coming soon!")}
+            className="px-4 py-2 rounded-lg font-semibold text-sm bg-green-600 hover:bg-green-700 text-white transition"
+          >
+            Grocery Items
+          </button>
+        </div>
+      </div>
 
       <div className="grid grid-cols-7 gap-4">
         {daysOfWeek.map((day) => {
