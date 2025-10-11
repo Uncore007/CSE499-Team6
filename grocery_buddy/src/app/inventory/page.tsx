@@ -76,15 +76,13 @@ export default function InventoryPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-900 text-white p-6 md:ml-56">
+      <div className="min-h-screen bg-gray-900 text-white p-3 sm:p-4 md:p-6 md:ml-56">
       <div className="max-w-6xl mx-auto">
-        {/*  I'm just playing with the idea of using flex justify-around to make it better 
-        for the mobile version so the hamburger menu doesn't cover the title and button  */}
-        <div className="flex justify-around items-center mb-8">
-          <h1 className="text-4xl font-bold">My Inventory</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">My Inventory</h1>
           <button
             onClick={() => router.push('/inventory/new')}
-            className="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold"
+            className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold text-sm sm:text-base transition whitespace-nowrap"
           >
             Add New Item
           </button>
@@ -92,37 +90,37 @@ export default function InventoryPage() {
 
         {items.length === 0 ? (
           <div className="text-center text-gray-400 py-12">
-            <p>No inventory items yet. Create your first item!</p>
+            <p className="text-sm sm:text-base">No inventory items yet. Create your first item!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {items.map((item) => (
               <div
                 key={item.id}
-                className={`rounded-lg p-6 hover:shadow-lg transition ${
+                className={`rounded-lg p-4 sm:p-5 md:p-6 hover:shadow-lg transition ${
                   item.in_stock ? 'bg-gray-800' : 'bg-gray-800/50 opacity-75'
                 }`}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl ${
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-xl sm:text-2xl ${
                       item.in_stock ? 'bg-green-600' : 'bg-red-600'
                     }`}>
                       {item.in_stock ? '✓' : '✗'}
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold">{item.name}</h3>
-                      <p className={`text-sm ${item.in_stock ? 'text-green-400' : 'text-red-400'}`}>
+                      <h3 className="text-base sm:text-lg md:text-xl font-semibold line-clamp-1">{item.name}</h3>
+                      <p className={`text-xs sm:text-sm ${item.in_stock ? 'text-green-400' : 'text-red-400'}`}>
                         {item.in_stock ? 'In Stock' : 'Out of Stock'}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex gap-2 mt-4">
+                <div className="flex flex-col sm:flex-row gap-2 mt-3 sm:mt-4">
                   <button
                     onClick={() => toggleStock(item)}
-                    className={`flex-1 px-4 py-2 rounded ${
+                    className={`flex-1 px-3 sm:px-4 py-2 rounded text-sm sm:text-base transition ${
                       item.in_stock 
                         ? 'bg-red-600 hover:bg-red-700' 
                         : 'bg-green-600 hover:bg-green-700'
@@ -132,19 +130,19 @@ export default function InventoryPage() {
                   </button>
                   <button
                     onClick={() => router.push(`/inventory/${item.id}`)}
-                    className="px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded"
+                    className="px-3 sm:px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded text-sm sm:text-base transition"
                   >
                     View
                   </button>
                   <button
                     onClick={() => router.push(`/inventory/${item.id}/edit`)}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
+                    className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm sm:text-base transition"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => deleteItem(item.id)}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded"
+                    className="px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-sm sm:text-base transition"
                   >
                     Delete
                   </button>

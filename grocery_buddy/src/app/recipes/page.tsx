@@ -63,13 +63,13 @@ export default function RecipesPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-900 text-white p-6 md:ml-56">
+      <div className="min-h-screen bg-gray-900 text-white p-3 sm:p-4 md:p-6 md:ml-56">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">My Recipes</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">My Recipes</h1>
           <button
             onClick={() => router.push('/recipes/new')}
-            className="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold"
+            className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold text-sm sm:text-base transition whitespace-nowrap"
           >
             Add New Recipe
           </button>
@@ -77,10 +77,10 @@ export default function RecipesPage() {
 
         {recipes.length === 0 ? (
           <div className="text-center text-gray-400 py-12">
-            <p>No recipes yet. Create your first recipe!</p>
+            <p className="text-sm sm:text-base">No recipes yet. Create your first recipe!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {recipes.map((recipe) => (
               <div
                 key={recipe.id}
@@ -90,39 +90,39 @@ export default function RecipesPage() {
                   <img
                     src={recipe.image_url}
                     alt={recipe.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-44 md:h-48 object-cover"
                   />
                 )}
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-2">{recipe.title}</h3>
+                <div className="p-3 sm:p-4">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 line-clamp-1">{recipe.title}</h3>
                   {recipe.description && (
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                    <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
                       {recipe.description}
                     </p>
                   )}
                   
-                  <div className="flex gap-4 text-sm text-gray-400 mb-4">
-                    {recipe.prep_minutes && <span>⏱️ Prep: {recipe.prep_minutes}m</span>}
-                    {recipe.cook_minutes && <span>🔥 Cook: {recipe.cook_minutes}m</span>}
-                    {recipe.servings && <span>👥 Serves: {recipe.servings}</span>}
+                  <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
+                    {recipe.prep_minutes && <span className="whitespace-nowrap">⏱️ Prep: {recipe.prep_minutes}m</span>}
+                    {recipe.cook_minutes && <span className="whitespace-nowrap">🔥 Cook: {recipe.cook_minutes}m</span>}
+                    {recipe.servings && <span className="whitespace-nowrap">👥 Serves: {recipe.servings}</span>}
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <button
                       onClick={() => router.push(`/recipes/${recipe.id}`)}
-                      className="flex-1 px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded"
+                      className="flex-1 px-3 sm:px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded text-sm sm:text-base transition"
                     >
                       View
                     </button>
                     <button
                       onClick={() => router.push(`/recipes/${recipe.id}/edit`)}
-                      className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
+                      className="flex-1 px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm sm:text-base transition"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => deleteRecipe(recipe.id)}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded"
+                      className="px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-sm sm:text-base transition"
                     >
                       Delete
                     </button>
