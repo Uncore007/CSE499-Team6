@@ -9,25 +9,25 @@ function TopHeader() {
 
   return (
     <>
-      <header className="flex items-center justify-between px-4 md:px-6 py-4 bg-gray-900 text-white fixed top-0 left-0 right-0 z-30 md:pl-56">
-        <div className="flex items-center gap-4">
-          <button className="md:hidden p-2" onClick={() => setOpen(true)} aria-label="Open menu">
-            <Menu />
+      <header className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 bg-gray-900 text-white fixed top-0 left-0 right-0 z-30 md:pl-56">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button className="md:hidden p-1.5 sm:p-2" onClick={() => setOpen(true)} aria-label="Open menu">
+            <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-          <Link href="/" className="text-2xl font-bold">
+          <Link href="/" className="text-lg sm:text-xl md:text-2xl font-bold">
             Grocery Buddy
           </Link>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-2 sm:gap-4">
           <Link href="/login">
-            <button className="px-4 py-2 border border-orange-500 hover:border-orange-700 transition rounded-full">
+            <button className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base border border-orange-500 hover:border-orange-700 transition rounded-full">
               Log In
             </button>
           </Link>
-          <Link href="/signup">
-            <button className="px-4 py-2 border border-orange-500 bg-orange-400 hover:bg-orange-700 transition rounded-full">
-              Get Started Today
+          <Link href="/signup" className="hidden xs:block">
+            <button className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base border border-orange-500 bg-orange-400 hover:bg-orange-700 transition rounded-full whitespace-nowrap">
+              Get Started
             </button>
           </Link>
         </div>
@@ -65,19 +65,19 @@ function TopHeader() {
 function Hero(){
 
     return (
-     <section className="px-4 py-12 text-center">
+     <section className="px-4 py-8 sm:py-12 md:py-16 text-center">
             
                 {/* <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
                     Simplify Your <span className="text-orange-500">Meal</span>
                 </h2> */}
 
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 leading-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-2 sm:mt-4 leading-tight px-2">
                     <span className="text-orange-500">Simplify Your Life</span>
                     {/* <span className="bg-orange-500 w-7 h-1 inline-block align-middle ml-2"></span> */}
                 </h2>
 
                 
-                <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-gray-300 px-2">
+                <p className="mt-4 sm:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 px-4 leading-relaxed">
                     Manage recipes, track ingredients, and create grocery lists—all in one
                     place, designed to save you time and make meal planning effortless.
                 </p>
@@ -98,21 +98,21 @@ function Hero(){
 function Features(){
 
   return(
-    <section id="features" className="py-16">
-            <div className="max-w-6xl mx-auto px-6">
+    <section id="features" className="py-12 sm:py-16">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
             
-                <h2 className="font-bold text-center mb-12 text-violet-500 md:text-xl ">
+                <h2 className="font-bold text-center mb-8 sm:mb-12 text-violet-500 text-base sm:text-lg md:text-xl">
                     Explore Features to Simplify Your Kitchen
                 </h2>
 
         
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     
                     <Link href="/recipes">
-                      <div className="bg-violet-700 p-6 rounded-xl shadow hover:shadow-lg transition">
-                          <div className="text-4xl mb-4">🍳</div>
-                          <h3 className="text-xl font-semibold mb-2">Recipe Management</h3>
-                          <p className="text-white-200">Browse, add, and save your favorite recipes with ease.</p>
+                      <div className="bg-violet-700 p-5 sm:p-6 rounded-xl shadow hover:shadow-lg transition">
+                          <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🍳</div>
+                          <h3 className="text-lg sm:text-xl font-semibold mb-2">Recipe Management</h3>
+                          <p className="text-white-200 text-sm sm:text-base">Browse, add, and save your favorite recipes with ease.</p>
                       </div>
                     </Link>
 
@@ -124,18 +124,18 @@ function Features(){
                     </div> */}
 
                     <Link href="/inventory">
-                      <div className="bg-violet-700 p-6 rounded-xl shadow hover:shadow-lg transition">
-                          <div className="text-4xl mb-4">🏠</div>
-                          <h3 className="text-xl font-semibold mb-2">Inventory Tracking</h3>
-                          <p className="text-white-200">Always know what’s in your pantry so you never overbuy or run out.</p>
+                      <div className="bg-violet-700 p-5 sm:p-6 rounded-xl shadow hover:shadow-lg transition">
+                          <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🏠</div>
+                          <h3 className="text-lg sm:text-xl font-semibold mb-2">Inventory Tracking</h3>
+                          <p className="text-white-200 text-sm sm:text-base">Always know what's in your pantry so you never overbuy or run out.</p>
                       </div>
                     </Link>
 
                     <Link href="/grocery_items">
-                      <div className="bg-violet-700 p-6 rounded-xl shadow hover:shadow-lg transition">
-                          <div className="text-4xl mb-4">🛒</div>
-                          <h3 className="text-xl font-semibold mb-2">Smart Grocery Lists</h3>
-                          <p className="text-white-200">Assign grocery items to different stores and keep your list organized.</p>
+                      <div className="bg-violet-700 p-5 sm:p-6 rounded-xl shadow hover:shadow-lg transition">
+                          <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🛒</div>
+                          <h3 className="text-lg sm:text-xl font-semibold mb-2">Smart Grocery Lists</h3>
+                          <p className="text-white-200 text-sm sm:text-base">Assign grocery items to different stores and keep your list organized.</p>
                       </div>
                     </Link>
 
@@ -312,34 +312,34 @@ function Features(){
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12 px-6 md:px-16">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="bg-gray-900 text-gray-300 py-8 px-4 sm:py-12 sm:px-6 md:px-12 lg:px-16">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
         {/* Brand */}
-        <div>
-          <h3 className="text-2xl font-bold text-white mb-4">Grocery Buddy</h3>
-          <p className="text-gray-400 mb-4">
+        <div className="sm:col-span-2 lg:col-span-1">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Grocery Buddy</h3>
+          <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4 leading-relaxed">
             Simplify meal planning, track ingredients, and manage grocery lists all in one place.
           </p>
-          <p className="text-sm text-gray-500">© {new Date().getFullYear()} Grocery Buddy. All rights reserved.</p>
+          <p className="text-xs sm:text-sm text-gray-500">© {new Date().getFullYear()} Grocery Buddy. All rights reserved.</p>
         </div>
 
         {/* Links */}
         <div>
-          <h4 className="text-xl font-semibold text-white mb-4">Product</h4>
-          <ul className="space-y-2">
-            <li><a href="#features" className="hover:text-orange-500">Features</a></li>
-            <li><a href="#pricing" className="hover:text-orange-500">Pricing</a></li>
-            <li><a href="#testimonials" className="hover:text-orange-500">Testimonials</a></li>
+          <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">Product</h4>
+          <ul className="space-y-1.5 sm:space-y-2">
+            <li><a href="#features" className="text-sm sm:text-base hover:text-orange-500 transition">Features</a></li>
+            <li><a href="#pricing" className="text-sm sm:text-base hover:text-orange-500 transition">Pricing</a></li>
+            <li><a href="#testimonials" className="text-sm sm:text-base hover:text-orange-500 transition">Testimonials</a></li>
           </ul>
         </div>
 
         {/* Company */}
         <div>
-          <h4 className="text-xl font-semibold text-white mb-4">Company</h4>
-          <ul className="space-y-2">
-            <li><a href="#about" className="hover:text-orange-500">About Us</a></li>
-            <li><a href="#blog" className="hover:text-orange-500">Blog</a></li>
-            <li><a href="#careers" className="hover:text-orange-500">Careers</a></li>
+          <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">Company</h4>
+          <ul className="space-y-1.5 sm:space-y-2">
+            <li><a href="#about" className="text-sm sm:text-base hover:text-orange-500 transition">About Us</a></li>
+            <li><a href="#blog" className="text-sm sm:text-base hover:text-orange-500 transition">Blog</a></li>
+            <li><a href="#careers" className="text-sm sm:text-base hover:text-orange-500 transition">Careers</a></li>
           </ul>
         </div>
 
@@ -364,7 +364,7 @@ function Footer() {
       </div>
 
       {/* Bottom border */}
-      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-500">
+      <div className="border-t border-gray-700 mt-6 sm:mt-10 pt-4 sm:pt-6 text-center text-xs sm:text-sm text-gray-500">
         Built by team 6 for CSE 499
       </div>
     </footer>
