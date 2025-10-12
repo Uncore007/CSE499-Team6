@@ -100,17 +100,18 @@ export default function Calendar() {
     return <p className="text-center text-red-500">{error}</p>;
 
 return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-        <h3 className="text-2xl font-bold text-white mb-4 md:mb-0 text-center">
+    <div className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
+
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <h3 className="text-2xl font-bold text-white text-center md:text-left">
           Weekly Meal Planner
         </h3>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <button
             onClick={removeAllRecipes}
             disabled={removingAll}
-            className={`px-4 py-2 rounded-lg font-semibold text-sm ${
+            className={`px-4 py-2 rounded-lg font-semibold text-sm w-full sm:w-auto ${
               removingAll
                 ? "bg-red-400 cursor-not-allowed"
                 : "bg-red-600 hover:bg-red-700"
@@ -121,14 +122,24 @@ return (
 
           <button
             onClick={() => alert("Grocery items feature coming soon!")}
-            className="px-4 py-2 rounded-lg font-semibold text-sm bg-green-600 hover:bg-green-700 text-white transition"
+            className="px-4 py-2 rounded-lg font-semibold text-sm bg-green-600 hover:bg-green-700 text-white transition w-full sm:w-auto"
           >
             Grocery Items
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-4">
+      <div
+        className="
+          grid 
+          grid-cols-1 
+          sm:grid-cols-2 
+          md:grid-cols-3 
+          lg:grid-cols-4 
+          xl:grid-cols-7 
+          gap-4
+        "
+      >
         {daysOfWeek.map((day) => {
           const entry = calendar.find((c) => c.day === day);
           const recipe = entry?.recipes;
@@ -136,7 +147,7 @@ return (
           return (
             <div
               key={day}
-              className="bg-gray-700 p-4 rounded-lg text-center text-white flex flex-col justify-between"
+              className="bg-gray-700 p-4 rounded-lg text-center text-white flex flex-col justify-between transition-transform hover:scale-[1.02]"
             >
               <h4 className="font-semibold mb-2">{day}</h4>
 
@@ -166,7 +177,7 @@ return (
               <select
                 onChange={(e) => assignRecipe(day, e.target.value)}
                 defaultValue=""
-                className="mt-3 w-full bg-gray-600 text-sm text-white rounded p-1"
+                className="mt-3 w-full bg-gray-600 text-sm text-white rounded p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               >
                 <option value="">Assign recipe...</option>
                 {recipes.map((r) => (
