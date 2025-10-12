@@ -33,6 +33,9 @@ export default function Navbar() {
             <li>
               <Link href="/grocery_items" className="block px-3 py-2 rounded hover:bg-gray-700">Grocery List</Link>
             </li>
+            <li>
+              <Link href="/stores" className="block px-3 py-2 rounded hover:bg-gray-700">Stores</Link>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -58,6 +61,9 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link href="/grocery_items" onClick={() => setOpen(false)} className="block px-3 py-2 rounded hover:bg-gray-700">Grocery List</Link>
+                </li>
+                <li>
+                  <Link href="/stores" onClick={() => setOpen(false)} className="block px-3 py-2 rounded hover:bg-gray-700">Stores</Link>
                 </li>
               </ul>
             </nav>
