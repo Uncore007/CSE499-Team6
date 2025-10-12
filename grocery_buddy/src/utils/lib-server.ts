@@ -366,3 +366,138 @@ export async function removeInventoryFromRecipe(id: string, recipeId: string, us
   if (error) throw error;
 }
 
+// New function to create grocery items for a recipe
+export async function createGroceryItemsForRecipe(recipeId: number, userId: string) {
+    const supabase = await createClient();
+    
+    // Get all inventory items needed for the recipe that are not in stock
+    const { data: recipeInventory, error: fetchError } = await supabase
+        .from('recipes_inventory')
+        .select(`
+            inventory_id,
+            qty,
+            unit,
+            inventory:inventory_id (
+                id,
+                name,
+                in_stock
+            )
+        `)
+        .eq('recipe_id', recipeId);
+
+    if (fetchError) {
+        throw new Error(`Failed to fetch recipe inventory: ${fetchError.message}`);
+    }
+
+    if (!recipeInventory || recipeInventory.length === 0) {
+        return { message: 'No inventory items found for this recipe', created: 0 };
+    }
+
+    // Filter for items not in stock
+    const outOfStockItems = recipeInventory.filter(
+        item => item.inventory && !item.inventory.in_stock
+    );
+
+    if (outOfStockItems.length === 0) {
+        return { message: 'All items are in stock', created: 0 };
+    }
+
+    // Check which items already have grocery list entries
+    const inventoryIds = outOfStockItems.map(item => item.inventory_id);
+    const { data: existingGroceryItems } = await supabase
+        .from('grocery_items')
+        .select('inventory_id')
+        .eq('user_id', userId)
+        .in('inventory_id', inventoryIds);
+
+    const existingInventoryIds = new Set(
+        existingGroceryItems?.map(item => item.inventory_id) || []
+    );
+
+    // Create grocery items for items that don't already have entries
+    const itemsToCreate = outOfStockItems
+        .filter(item => !existingInventoryIds.has(item.inventory_id))
+        .map(item => ({
+            name: item.inventory.name,
+            quantity: item.qty || 1,
+            units: item.unit || 'unit',
+            is_purchased: false,
+            user_id: userId,
+            inventory_id: item.inventory_id,
+            store_id: null
+        }));
+
+    if (itemsToCreate.length === 0) {
+        return { message: 'All out-of-stock items already have grocery list entries', created: 0 };
+    }
+
+    const { data, error: insertError } = await supabase
+        .from('grocery_items')
+        .insert(itemsToCreate)
+        .select();
+
+    if (insertError) {
+        throw new Error(`Failed to create grocery items: ${insertError.message}`);
+    }
+
+    return { 
+        message: `Created ${itemsToCreate.length} grocery list item(s)`, 
+        created: itemsToCreate.length,
+        items: data 
+    };
+}
+
+// Calendar Functions
+export async function fetchCalendar(userId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('calendar')
+    .select(`
+      day,
+      recipes (
+        id,
+        title,
+        image_url,
+        prep_minutes,
+        cook_minutes,
+        servings
+      )
+    `)
+    .eq('user_id', userId)
+    
+    if (error) throw error;
+    return data;
+}
+
+export async function assignRecipeToDay(userId: string, recipeId: string, day: string) {
+  const supabase = await createClient();
+  
+  await supabase
+    .from('calendar')
+    .delete()
+    .eq('user_id', userId)
+    .eq('day', day);
+  
+  const { data, error } = await supabase
+    .from('calendar')
+    .insert([{
+      user_id: userId,
+      recipe_id: recipeId,
+      day: day
+    }])
+    .select();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function removeRecipeFromDay(userId: string, day: string) {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('calendar')
+    .delete()
+    .eq('user_id', userId)
+    .eq('day', day);
+  
+  if (error) throw error;
+}
