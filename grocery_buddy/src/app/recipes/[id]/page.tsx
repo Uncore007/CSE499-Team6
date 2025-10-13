@@ -16,11 +16,13 @@ interface Recipe {
 }
 
 export default function RecipeDetailPage() {
-  const params = useParams()
-  const router = useRouter()
   const [recipe, setRecipe] = useState<Recipe | null>(null)
   const [loading, setLoading] = useState(true)
+  const [generatingList, setGeneratingList] = useState(false)
   const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const router = useRouter()
+  const params = useParams()
 
   useEffect(() => {
     fetchRecipe()
@@ -37,6 +39,36 @@ export default function RecipeDetailPage() {
       setError(message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleGenerateGroceryList = async () => {
+    setGeneratingList(true)
+    setError('')
+    setSuccessMessage('')
+
+    try {
+      const response = await fetch(`/api/recipes/${params.id}/generate-grocery-list`, {
+        method: 'POST',
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || 'Failed to generate grocery list')
+      }
+
+      const result = await response.json()
+      setSuccessMessage(result.message || `Added ${result.created} items to your grocery list`)
+      
+      // Optional: redirect to grocery list after a delay
+      setTimeout(() => {
+        router.push('/grocery_items')
+      }, 2000)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error'
+      setError(message)
+    } finally {
+      setGeneratingList(false)
     }
   }
 
@@ -72,6 +104,13 @@ export default function RecipeDetailPage() {
               Manage Inventory
             </button>
             <button
+              onClick={handleGenerateGroceryList}
+              disabled={generatingList}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded font-semibold disabled:opacity-50"
+            >
+              {generatingList ? 'Generating...' : '📋 Add to Grocery List'}
+            </button>
+            <button
               onClick={() => router.push(`/recipes/${recipe.id}/edit`)}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-semibold"
             >
@@ -79,6 +118,18 @@ export default function RecipeDetailPage() {
             </button>
           </div>
         </div>
+
+        {error && (
+          <div className="mb-4 p-4 bg-red-600/20 border border-red-600 rounded">
+            {error}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="mb-4 p-4 bg-green-600/20 border border-green-600 rounded">
+            {successMessage}
+          </div>
+        )}
 
         {recipe.description && (
           <p className="text-gray-300 text-lg mb-6">{recipe.description}</p>
