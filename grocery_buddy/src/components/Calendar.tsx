@@ -120,12 +120,12 @@ return (
             {removingAll ? "Removing..." : "Remove All"}
           </button>
 
-          <button
+          {/* <button
             onClick={() => alert("Grocery items feature coming soon!")}
             className="px-4 py-2 rounded-lg font-semibold text-sm bg-green-600 hover:bg-green-700 text-white transition w-full sm:w-auto"
           >
             Grocery Items
-          </button>
+          </button> */}
         </div>
       </div>
 
