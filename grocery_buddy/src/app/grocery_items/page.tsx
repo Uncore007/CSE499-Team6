@@ -194,7 +194,7 @@ export default function GroceryItemsPage() {
               + Add Store
             </button>
             <button
-              onClick={() => router.push('/grocery-items/new')}
+              onClick={() => router.push('/grocery_items/new')}
               className="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold"
             >
               + Add Item
@@ -387,7 +387,7 @@ function GroceryItemRow({
               ✓ Purchase
             </button>
             <button
-              onClick={() => router.push(`/grocery-items/${item.id}/edit`)}
+              onClick={() => router.push(`/grocery_items/${item.id}/edit`)}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm"
               title="Edit item"
             >

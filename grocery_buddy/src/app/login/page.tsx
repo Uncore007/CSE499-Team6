@@ -49,12 +49,12 @@ export default function LoginPage() {
             >
               Log In
             </button>
-            <button
+            {/* <button
               formAction={signup}
               className="w-full py-3 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold transition"
             >
               Register
-            </button>
+            </button> */}
           </div>
         </form>
       </div>

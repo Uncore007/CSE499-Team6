@@ -89,7 +89,7 @@ export default function EditGroceryItemPage() {
         throw new Error(data.error || 'Failed to update item')
       }
 
-      router.push(`/grocery-items/${params.id}`)
+      router.push(`/grocery_items/${params.id}`)
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Unknown error"
       setError(message)
@@ -193,7 +193,7 @@ export default function EditGroceryItemPage() {
             </button>
             <button
               type="button"
-              onClick={() => router.push(`/grocery-items/${params.id}`)}
+              onClick={() => router.push(`/grocery_items/${params.id}`)}
               className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded font-semibold"
             >
               Cancel

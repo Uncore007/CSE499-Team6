@@ -73,7 +73,7 @@ export default function NewGroceryItemPage() {
         throw new Error(data.error || 'Failed to create grocery item')
       }
 
-      router.push('/grocery-items')
+      router.push('/grocery_items')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Unknown error"
       setError(message)
@@ -179,7 +179,7 @@ export default function NewGroceryItemPage() {
             </button>
             <button
               type="button"
-              onClick={() => router.push('/grocery-items')}
+              onClick={() => router.push('/grocery_items')}
               className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded font-semibold"
             >
               Cancel

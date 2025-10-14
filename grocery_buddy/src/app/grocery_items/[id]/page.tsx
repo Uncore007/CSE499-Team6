@@ -61,7 +61,7 @@ export default function GroceryItemDetailPage() {
         method: 'DELETE',
       })
       if (!response.ok) throw new Error('Failed to delete item')
-      router.push('/grocery-items')
+      router.push('/grocery_items')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Unknown error"
       setError(message)
@@ -93,7 +93,7 @@ export default function GroceryItemDetailPage() {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-4xl mx-auto">
         <button
-          onClick={() => router.push('/grocery-items')}
+          onClick={() => router.push('/grocery_items')}
           className="mb-6 text-orange-500 hover:text-orange-400"
         >
           ← Back to Grocery List
@@ -129,7 +129,7 @@ export default function GroceryItemDetailPage() {
                 {item.is_purchased ? '↺ Mark Unpurchased' : '✓ Mark Purchased'}
               </button>
               <button
-                onClick={() => router.push(`/grocery-items/${item.id}/edit`)}
+                onClick={() => router.push(`/grocery_items/${item.id}/edit`)}
                 className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-semibold"
               >
                 Edit
