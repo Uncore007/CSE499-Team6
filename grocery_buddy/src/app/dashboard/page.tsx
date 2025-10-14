@@ -1,40 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Calendar from "@/components/Calendar";
 
 export default function Dashboard() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Check if user is authenticated
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const response = await fetch('/api/auth/user');
-      if (!response.ok) {
-        router.push('/login');
-        return;
-      }
-      setLoading(false);
-    } catch (error) {
-      router.push('/login');
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <p className="text-white text-xl">Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <>
       <Navbar />
