@@ -1,9 +1,8 @@
 "use client";
 import { useState } from "react";
-import Navbar from "../../components/Navbar";
-import Calendar from "@/components/Calendar";
 import { CheckCircle, Menu, X } from "lucide-react";
 import Link from "next/link";
+
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -24,7 +23,7 @@ function NavBar() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
-          {/* {navLinks.map((link) => (
+          {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -32,7 +31,7 @@ function NavBar() {
             >
               {link.name}
             </a>
-          ))} */}
+          ))}
           <Link href="/login">
             <button className="px-4 py-2 border border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-400 transition">
               Log In
@@ -61,7 +60,7 @@ function NavBar() {
       {menuOpen && (
         <div className="md:hidden bg-gray-800 border-t border-gray-700 shadow-lg">
           <div className="flex flex-col items-center space-y-5 py-6">
-            {/* {navLinks.map((link) => (
+            {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
@@ -70,7 +69,7 @@ function NavBar() {
               >
                 {link.name}
               </a>
-            ))} */}
+            ))}
             <Link href="/login" onClick={() => setMenuOpen(false)}>
               <button className="px-4 py-2 border border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-400 transition">
                 Log In
@@ -183,167 +182,167 @@ function Features() {
   );
 }
 
-// function Testimonials() {
-//   const testimonials = [
-//     {
-//       quote:
-//         "This app has revolutionized my grocery shopping. I save time and money every week!",
-//       author: "Alex Johnson",
-//       role: "Busy Parent",
-//     },
-//     {
-//       quote:
-//         "The best meal planning and list-making tool I've ever used. Highly recommended.",
-//       author: "Samantha Lee",
-//       role: "Food Blogger",
-//     },
-//     {
-//       quote:
-//         "Grocery Buddy helps me stick to my budget and reduce food waste. It's a must-have.",
-//       author: "Michael Brown",
-//       role: "Student",
-//     },
-//   ];
+function Testimonials() {
+  const testimonials = [
+    {
+      quote:
+        "This app has revolutionized my grocery shopping. I save time and money every week!",
+      author: "Alex Johnson",
+      role: "Busy Parent",
+    },
+    {
+      quote:
+        "The best meal planning and list-making tool I've ever used. Highly recommended.",
+      author: "Samantha Lee",
+      role: "Food Blogger",
+    },
+    {
+      quote:
+        "Grocery Buddy helps me stick to my budget and reduce food waste. It's a must-have.",
+      author: "Michael Brown",
+      role: "Student",
+    },
+  ];
 
-//   return (
-//     <section id="testimonials" className="py-16">
-//       <h2 className="font-bold text-center mb-12 text-cyan-500 text-xl">
-//         What Our Users Say
-//       </h2>
+  return (
+    <section id="testimonials" className="py-16">
+      <h2 className="font-bold text-center mb-12 text-cyan-500 text-xl">
+        What Our Users Say
+      </h2>
 
-//       <div className="grid gap-8 mx-7 md:grid-cols-3">
-//         {testimonials.map((testimonial, index) => (
-//           <article key={index} className="bg-cyan-700 p-6 rounded-lg shadow">
-//             <blockquote className="text-white-700 italic">
-//               &quot;{testimonial.quote}&quot;
-//             </blockquote>
-//             <cite className="block mt-4 text-sm font-semibold text-white-900">
-//               – {testimonial.author}, {testimonial.role}
-//             </cite>
-//           </article>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }
+      <div className="grid gap-8 mx-7 md:grid-cols-3">
+        {testimonials.map((testimonial, index) => (
+          <article key={index} className="bg-cyan-700 p-6 rounded-lg shadow">
+            <blockquote className="text-white-700 italic">
+              &quot;{testimonial.quote}&quot;
+            </blockquote>
+            <cite className="block mt-4 text-sm font-semibold text-white-900">
+              – {testimonial.author}, {testimonial.role}
+            </cite>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
 
-// function Benefits() {
-//   return (
-//     <section className="py-16 px-6 md:px-16 bg-gray-900 text-white">
-//       <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">
-//         Why <span className="text-orange-500">Grocery Buddy?</span>
-//       </h2>
+function Benefits() {
+  return (
+    <section className="py-16 px-6 md:px-16 bg-gray-900 text-white">
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-8">
+        Why <span className="text-orange-500">Grocery Buddy?</span>
+      </h2>
 
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-//         {[
-//           "Save time on meal planning",
-//           "Reduce food waste with inventory tracking",
-//           "Stress-free grocery shopping",
-//           "Stay organized across multiple users",
-//         ].map((benefit, idx) => (
-//           <div
-//             key={idx}
-//             className="flex items-start gap-3 bg-gray-800 p-5 rounded-2xl shadow-md hover:shadow-lg transition"
-//           >
-//             <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
-//             <p className="text-lg text-gray-200">{benefit}</p>
-//           </div>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }
-// function Pricing() {
-//   const plans = [
-//     {
-//       name: "Starter",
-//       price: "Free",
-//       description: "Perfect for individuals starting out with meal planning.",
-//       features: [
-//         "Basic recipe management",
-//         "Simple grocery lists",
-//         "1 user account",
-//       ],
-//       highlight: false,
-//     },
-//     {
-//       name: "Pro",
-//       price: "$9/mo",
-//       description: "Best for families who want to stay fully organized.",
-//       features: [
-//         "Unlimited recipes",
-//         "Smart grocery lists",
-//         "Pantry inventory tracking",
-//         "Up to 5 user accounts",
-//       ],
-//       highlight: true, // main plan
-//     },
-//     {
-//       name: "Team",
-//       price: "$19/mo",
-//       description: "For larger households and teams who collaborate often.",
-//       features: [
-//         "All Pro features",
-//         "Advanced meal planning",
-//         "Shared shopping lists",
-//         "Unlimited user accounts",
-//       ],
-//       highlight: false,
-//     },
-//   ];
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {[
+          "Save time on meal planning",
+          "Reduce food waste with inventory tracking",
+          "Stress-free grocery shopping",
+          "Stay organized across multiple users",
+        ].map((benefit, idx) => (
+          <div
+            key={idx}
+            className="flex items-start gap-3 bg-gray-800 p-5 rounded-2xl shadow-md hover:shadow-lg transition"
+          >
+            <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+            <p className="text-lg text-gray-200">{benefit}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+function Pricing() {
+  const plans = [
+    {
+      name: "Starter",
+      price: "Free",
+      description: "Perfect for individuals starting out with meal planning.",
+      features: [
+        "Basic recipe management",
+        "Simple grocery lists",
+        "1 user account",
+      ],
+      highlight: false,
+    },
+    {
+      name: "Pro",
+      price: "$9/mo",
+      description: "Best for families who want to stay fully organized.",
+      features: [
+        "Unlimited recipes",
+        "Smart grocery lists",
+        "Pantry inventory tracking",
+        "Up to 5 user accounts",
+      ],
+      highlight: true, // main plan
+    },
+    {
+      name: "Team",
+      price: "$19/mo",
+      description: "For larger households and teams who collaborate often.",
+      features: [
+        "All Pro features",
+        "Advanced meal planning",
+        "Shared shopping lists",
+        "Unlimited user accounts",
+      ],
+      highlight: false,
+    },
+  ];
 
-//   return (
-//     <section
-//       id="pricing"
-//       className="py-20 px-6 md:px-16 bg-gray-900 text-white"
-//     >
-//       <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">
-//         Choose Your <span className="text-orange-500">Plan</span>
-//       </h2>
-//       <p className="text-center text-gray-400 mb-12">
-//         Simple pricing for every household. Cancel anytime.
-//       </p>
+  return (
+    <section
+      id="pricing"
+      className="py-20 px-6 md:px-16 bg-gray-900 text-white"
+    >
+      <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">
+        Choose Your <span className="text-orange-500">Plan</span>
+      </h2>
+      <p className="text-center text-gray-400 mb-12">
+        Simple pricing for every household. Cancel anytime.
+      </p>
 
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-//         {plans.map((plan, idx) => (
-//           <div
-//             key={idx}
-//             className={`p-8 rounded-2xl border shadow-lg transition hover:shadow-xl ${
-//               plan.highlight
-//                 ? "bg-gray-800 border-orange-500 scale-105"
-//                 : "bg-gray-800 border-gray-700"
-//             }`}
-//           >
-//             <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
-//             <p className="text-4xl font-bold text-orange-500 mb-2">
-//               {plan.price}
-//             </p>
-//             <p className="text-gray-400 mb-6">{plan.description}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {plans.map((plan, idx) => (
+          <div
+            key={idx}
+            className={`p-8 rounded-2xl border shadow-lg transition hover:shadow-xl ${
+              plan.highlight
+                ? "bg-gray-800 border-orange-500 scale-105"
+                : "bg-gray-800 border-gray-700"
+            }`}
+          >
+            <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
+            <p className="text-4xl font-bold text-orange-500 mb-2">
+              {plan.price}
+            </p>
+            <p className="text-gray-400 mb-6">{plan.description}</p>
 
-//             <ul className="space-y-3 mb-6">
-//               {plan.features.map((feature, fIdx) => (
-//                 <li key={fIdx} className="flex items-center gap-2">
-//                   <span className="text-green-400">✔</span>
-//                   <span>{feature}</span>
-//                 </li>
-//               ))}
-//             </ul>
+            <ul className="space-y-3 mb-6">
+              {plan.features.map((feature, fIdx) => (
+                <li key={fIdx} className="flex items-center gap-2">
+                  <span className="text-green-400">✔</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
 
-//             <button
-//               className={`w-full px-4 py-2 rounded-full font-semibold transition ${
-//                 plan.highlight
-//                   ? "bg-orange-500 hover:bg-orange-600 text-white"
-//                   : "border border-orange-500 hover:border-orange-700 text-orange-400 hover:text-orange-500"
-//               }`}
-//             >
-//               {plan.highlight ? "Get Started" : "Choose Plan"}
-//             </button>
-//           </div>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }
+            <button
+              className={`w-full px-4 py-2 rounded-full font-semibold transition ${
+                plan.highlight
+                  ? "bg-orange-500 hover:bg-orange-600 text-white"
+                  : "border border-orange-500 hover:border-orange-700 text-orange-400 hover:text-orange-500"
+              }`}
+            >
+              {plan.highlight ? "Get Started" : "Choose Plan"}
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function Footer() {
   return (
@@ -443,11 +442,10 @@ export default function LandingPage() {
       <NavBar />
       <div className="pt-6">
         <Hero />
-          <Calendar />
         <Features />
-        {/* <Testimonials />
+        <Testimonials />
         <Benefits />
-        <Pricing /> */}
+        <Pricing />
         <Footer />
       </div>
     </main>
